@@ -1,0 +1,654 @@
+/* General Styles */
+:root {
+    --primary-bg: #EBCEBF;
+    --primary-text: #780929;
+    --secondary-bg: #FAFDEA;
+    --secondary-text: #162C41;
+    --accent-1: #75B3AD;
+    --accent-2: #3E95A6;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+    transition: all 0.3s ease;
+}
+
+/* Base Styles */
+body {
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Framedosti Theme */
+body.framedosti {
+    background-color: var(--secondary-bg);
+    color: var(--secondary-text);
+}
+
+/* Header Styles */
+/* Header Layout */
+/* Header Layout */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--primary-text);
+    color: var(--primary-bg);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* College Logo (Left Side) */
+.college-logo {
+    flex: 1;
+    text-align: left;
+}
+
+/* Club Logo (Right Side) */
+.club-logo {
+    flex: 1;
+    text-align: right;
+}
+
+/* Navigation Styles */
+nav {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    gap: 1rem; /* Adjust gap between links */
+    flex-wrap: nowrap; /* Prevent wrapping to next line */
+    padding: 0 1rem; /* Add padding to prevent overflow */
+}
+
+nav a {
+    color: var(--primary-bg);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+    white-space: nowrap; /* Prevent text wrapping */
+    font-size: 0.9rem; /* Adjust font size if needed */
+}
+
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+    }
+
+    .college-logo, .club-logo {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .logo-img {
+        width: 60px;
+        height: 60px;
+    }
+
+    nav {
+        gap: 0.5rem; /* Reduce gap for smaller screens */
+        padding: 0;
+    }
+
+    nav a {
+        font-size: 0.8rem; /* Reduce font size for smaller screens */
+        padding: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    nav a {
+        font-size: 0.75rem; /* Further reduce font size for mobile */
+        padding: 0.3rem;
+    }
+}
+/* College Logo (Left Side) */
+.college-logo {
+    flex: 1;
+    text-align: left;
+}
+
+/* Club Logo (Right Side) */
+.club-logo {
+    flex: 1;
+    text-align: right;
+}
+
+/* Logo Image Styles */
+.logo-img {
+    width: 130px; /* Adjust size as needed */
+    height: 130px; /* Adjust size as needed */
+    border-radius: 50%; /* Makes it circular */
+    object-fit: cover;
+    border: 2px solid var(--primary-bg); /* Border color matches theme */
+}
+
+/* Navigation Styles */
+nav {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: var(--primary-bg);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+nav a.active {
+    background-color: rgb(24, 24, 24);
+    font-weight: bold;
+}
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+    }
+
+    .college-logo, .club-logo {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .logo-img {
+        width: 60px;
+        height: 60px;
+    }
+
+    nav {
+        gap: 1rem;
+    }
+}
+
+body.framedosti header {
+    background-color: var(--secondary-text);
+    color: var(--secondary-bg);
+}
+
+/* Navigation */
+nav {
+    background-color: var(--primary-text);
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+
+body.framedosti nav {
+    background-color: var(--secondary-text);
+}
+
+nav a {
+    color: var(--primary-bg);
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    position: relative;
+    overflow: hidden;
+}
+
+nav a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: left 0.3s ease;
+}
+
+nav a:hover::before {
+    left: 0;
+}
+
+body.framedosti nav a {
+    color: var(--secondary-bg);
+}
+
+/* Main Content */
+.container {
+    flex: 1;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+.section {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+}
+
+.section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Activity Grid */
+.activity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.activity-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.activity-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.activity-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.activity-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: var(--primary-text);
+}
+
+.activity-card p {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+/* Gallery Grid */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.gallery-item {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* Achievements Section */
+.achievements-section {
+    padding: 2rem 0;
+}
+
+.achievement-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.achievement-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.achievement-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.achievement-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-bg);
+    border-radius: 50%;
+    font-size: 2rem;
+    color: var(--primary-text);
+}
+
+.achievement-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: var(--primary-text);
+}
+
+.achievement-card p {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.achievement-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.badge-gold { background: #FFD700; color: #000; }
+.badge-silver { background: #C0C0C0; color: #000; }
+.badge-bronze { background: #CD7F32; color: #fff; }
+
+/* Buttons */
+.btn {
+    background: var(--primary-text);
+    color: var(--primary-bg);
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+body.framedosti .btn {
+    background: var(--secondary-text);
+    color: var(--secondary-bg);
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer */
+footer {
+    background: var(--accent-1);
+    color: var(--primary-text);
+    text-align: center;
+    padding: 2rem;
+    margin-top: auto;
+}
+
+body.framedosti footer {
+    background: var(--accent-2);
+    color: var(--secondary-text);
+}
+
+/* Framedosti Special Elements */
+.framedosti-feature {
+    border-left: 4px solid var(--secondary-text);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+}
+
+.framedosti-badge {
+    background: var(--secondary-text);
+    color: var(--secondary-bg);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    display: inline-block;
+    margin: 0.5rem;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+    
+    nav {
+        gap: 1rem;
+        padding: 0.5rem;
+    }
+    
+    .section {
+        padding: 1.5rem;
+    }
+    
+    .gallery-item img {
+        height: 180px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section {
+    animation: fadeIn 0.6s ease-out;
+}
+body {
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Animated Gradient Background */
+.animated-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(
+        45deg,
+        #EBCEBF,
+        #FFD3B6,
+        #FFAAA5,
+        #75B3AD,
+        #3E95A6
+    );
+    background-size: 400% 400%;
+    animation: gradientFlow 15s ease infinite;
+}
+
+@keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Add blur effect overlay */
+.animated-bg::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 20%, rgba(255,255,255,0.1) 100%);
+}
+.content-wrapper {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.9); /* Optional overlay */
+}
+/* JavaScript code removed */
+/* Modify gradient colors */
+.floating-element {
+    position: absolute;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    animation: float 20s infinite linear;
+}
+
+@keyframes float {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-100vh) rotate(360deg); }
+}
+.logo-img:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+.logo-img {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.logo-img:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+.logo-img {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+/* Coordinators Section */
+.coordinators-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.coordinator-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.coordinator-photo {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    border: 4px solid var(--primary-text);
+}
+
+.coordinator-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.coordinator-details h3 {
+    color: var(--primary-text);
+    margin-bottom: 0.5rem;
+}
+
+.role {
+    color: #666;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.bio {
+    color: #444;
+    line-height: 1.6;
+    max-width: 600px;
+}
+
+/* Contact Section */
+.contact-section {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+}
+
+.contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-top: 1.5rem;
+}
+
+.contact-info {
+    padding-right: 2rem;
+}
+
+.social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.social-icon {
+    color: var(--primary-text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: translateX(10px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .contact-wrapper {
+        grid-template-columns: 1fr;
+    }
+    
+    .coordinator-profile {
+        padding: 1.5rem;
+    }
+    
+    .coordinator-photo {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .coordinators-container {
+        gap: 1.5rem;
+    }
+    
+    .coordinator-profile {
+        padding: 1rem;
+    }
+}
