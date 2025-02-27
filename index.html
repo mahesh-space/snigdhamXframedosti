@@ -445,20 +445,45 @@
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const postBtn = document.querySelector('.graffiti-btn');
-        const canvas = document.querySelector('.drawing-canvas');
-        const alert = document.querySelector('.update-alert');
-        const graffitiWall = document.querySelector('.graffiti-wall');
+    document.addEventListener("DOMContentLoaded", () => {
+        const postBtn = document.querySelector(".graffiti-btn");
+        const canvas = document.querySelector(".drawing-canvas");
+        const alert = document.querySelector(".update-alert");
+        const graffitiWall = document.querySelector(".graffiti-wall");
+    
+        // Add default placeholder behavior
+        function setPlaceholder() {
+            if (canvas.textContent.trim() === "") {
+                canvas.textContent = "Write your appreciation message here...";
+                canvas.style.color = "#ffffff80"; // Light color for placeholder effect
+            }
+        }
+    
+        // Remove placeholder when focusing
+        canvas.addEventListener("focus", function () {
+            if (this.textContent === "Write your appreciation message here...") {
+                this.textContent = "";
+                this.style.color = "#ffffff"; // Change color when typing
+            }
+        });
+    
+        // Restore placeholder if empty
+        canvas.addEventListener("blur", setPlaceholder);
+    
+        // Ensure placeholder is set on page load
+        setPlaceholder();
     
         // Post graffiti message
-        postBtn.addEventListener('click', () => {
+        postBtn.addEventListener("click", () => {
             const text = canvas.textContent.trim();
-            if (text) {
+            if (text && text !== "Write your appreciation message here...") {
                 // Create a new message
-                const newMessage = document.createElement('div');
-                newMessage.className = 'graffiti-message';
-                newMessage.style.setProperty('--color', `hsl(${Math.random() * 360}, 70%, 60%)`);
+                const newMessage = document.createElement("div");
+                newMessage.className = "graffiti-message";
+                newMessage.style.setProperty(
+                    "--color",
+                    `hsl(${Math.random() * 360}, 70%, 60%)`
+                );
                 newMessage.innerHTML = `
                     <div class="message-content">
                         <span class="spray-effect">${text}</span>
@@ -478,29 +503,30 @@
                 // Show alert
                 showTemporaryAlert();
     
-                // Clear canvas
-                canvas.innerHTML = '';
+                // Clear canvas and reset placeholder
+                canvas.textContent = "";
+                setPlaceholder();
             }
         });
     
         // Handle reaction clicks efficiently
-        graffitiWall.addEventListener('click', (e) => {
-            if (e.target.classList.contains('react-btn')) {
-                let count = parseInt(e.target.getAttribute('data-count')) || 0;
+        graffitiWall.addEventListener("click", (e) => {
+            if (e.target.classList.contains("react-btn")) {
+                let count = parseInt(e.target.getAttribute("data-count")) || 0;
                 count++;
-                e.target.setAttribute('data-count', count);
+                e.target.setAttribute("data-count", count);
                 e.target.textContent = `❤️ ${count}`;
             }
         });
     
         function getRandomSticker() {
-            const stickers = ['🌟', '🎉', '🔥', '💯', '✨', '🎨', '👏'];
+            const stickers = ["🌟", "🎉", "🔥", "💯", "✨", "🎨", "👏"];
             return stickers[Math.floor(Math.random() * stickers.length)];
         }
     
         function showTemporaryAlert() {
-            alert.style.display = 'block';
-            setTimeout(() => alert.style.display = 'none', 2500);
+            alert.style.display = "block";
+            setTimeout(() => (alert.style.display = "none"), 2500);
         }
     });
 </script>
