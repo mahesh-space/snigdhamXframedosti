@@ -445,55 +445,64 @@
 
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const postBtn = document.querySelector('.graffiti-btn');
-    const canvas = document.querySelector('.drawing-canvas');
-    const alert = document.querySelector('.update-alert');
-
-    postBtn.addEventListener('click', () => {
-        if (canvas.textContent.trim()) {
-            // Create new message element
-            const newMessage = document.createElement('div');
-            newMessage.className = 'graffiti-message';
-            newMessage.style = `--color: hsl(${Math.random() * 360}, 70%, 60%)`;
-            newMessage.innerHTML = `
-                <div class="message-content">
-                    <span class="spray-effect">${canvas.innerHTML}</span>
-                    <div class="message-footer">
-                        <span class="author">- Anonymous</span>
-                        <div class="reactions">
-                            <button class="react-btn">❤️ 0</button>
+    document.addEventListener('DOMContentLoaded', () => {
+        const postBtn = document.querySelector('.graffiti-btn');
+        const canvas = document.querySelector('.drawing-canvas');
+        const alert = document.querySelector('.update-alert');
+        const graffitiWall = document.querySelector('.graffiti-wall');
+    
+        // Post graffiti message
+        postBtn.addEventListener('click', () => {
+            const text = canvas.textContent.trim();
+            if (text) {
+                // Create a new message
+                const newMessage = document.createElement('div');
+                newMessage.className = 'graffiti-message';
+                newMessage.style.setProperty('--color', `hsl(${Math.random() * 360}, 70%, 60%)`);
+                newMessage.innerHTML = `
+                    <div class="message-content">
+                        <span class="spray-effect">${text}</span>
+                        <div class="message-footer">
+                            <span class="author">- Anonymous</span>
+                            <div class="reactions">
+                                <button class="react-btn" data-count="0">❤️ 0</button>
+                            </div>
                         </div>
+                        <div class="sticker">${getRandomSticker()}</div>
                     </div>
-                    <div class="sticker">${getRandomSticker()}</div>
-                </div>
-            `;
-            
-            document.querySelector('.graffiti-wall').prepend(newMessage);
-            
-            // Show alert
+                `;
+    
+                // Add message to the top
+                graffitiWall.prepend(newMessage);
+    
+                // Show alert
+                showTemporaryAlert();
+    
+                // Clear canvas
+                canvas.innerHTML = '';
+            }
+        });
+    
+        // Handle reaction clicks efficiently
+        graffitiWall.addEventListener('click', (e) => {
+            if (e.target.classList.contains('react-btn')) {
+                let count = parseInt(e.target.getAttribute('data-count')) || 0;
+                count++;
+                e.target.setAttribute('data-count', count);
+                e.target.textContent = `❤️ ${count}`;
+            }
+        });
+    
+        function getRandomSticker() {
+            const stickers = ['🌟', '🎉', '🔥', '💯', '✨', '🎨', '👏'];
+            return stickers[Math.floor(Math.random() * stickers.length)];
+        }
+    
+        function showTemporaryAlert() {
             alert.style.display = 'block';
-            setTimeout(() => alert.style.display = 'none', 3000);
-            
-            // Clear canvas
-            canvas.innerHTML = '';
+            setTimeout(() => alert.style.display = 'none', 2500);
         }
     });
-
-    // Add reaction functionality
-    document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('react-btn')) {
-            const countSpan = e.target.querySelector('span') || e.target;
-            const currentCount = parseInt(countSpan.textContent) || 0;
-            countSpan.textContent = `${currentCount + 1}`;
-        }
-    });
-
-    function getRandomSticker() {
-        const stickers = ['🌟', '🎉', '🔥', '💯', '✨', '🎨', '👏'];
-        return stickers[Math.floor(Math.random() * stickers.length)];
-    }
-});
 </script>
     </div>
     
