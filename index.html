@@ -212,6 +212,12 @@
     background: rgba(0, 0, 0, 0.2);
 }
 
+.drawing-canvas:empty:before {
+    content: attr(placeholder);
+    color: #ffffff80;
+    display: block;
+}
+
 .toolbar {
     display: flex;
     gap: 1rem;
@@ -249,7 +255,7 @@
     position: relative;
     transform: rotate(-1deg);
     animation: float 3s ease-in-out infinite;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 @keyframes float {
@@ -333,6 +339,107 @@
     position: absolute;
     right: 20px;
     transition: all 0.5s ease;
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+    .graffiti-container {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .graffiti-editor {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .toolbar {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .tool-btn {
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+    }
+
+    .drawing-canvas {
+        min-height: 80px;
+        font-size: 1rem;
+        padding: 0.75rem;
+    }
+
+    .graffiti-wall {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 0.5rem;
+    }
+
+    .graffiti-message {
+        padding: 1rem;
+        transform: rotate(0deg);
+        animation: float-mobile 3s ease-in-out infinite;
+    }
+
+    @keyframes float-mobile {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-3px); }
+    }
+
+    .spray-effect {
+        font-size: 1.2rem;
+    }
+
+    .message-footer {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+
+    .sticker {
+        font-size: 1.2rem;
+        top: -10px;
+        right: -10px;
+    }
+
+    .graffiti-btn {
+        width: 100%;
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .update-alert {
+        width: calc(100% - 2rem);
+        left: 1rem;
+        right: auto;
+        bottom: 10px;
+        text-align: center;
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .drawing-canvas::before {
+        content: attr(placeholder);
+        color: #ffffff80;
+        pointer-events: none;
+        position: absolute;
+    }
+
+    .graffiti-message {
+        padding: 0.75rem;
+    }
+
+    .spray-effect {
+        font-size: 1.1rem;
+    }
+
+    .react-btn {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.9rem;
+    }
 }
 </style>
 
