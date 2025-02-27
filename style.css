@@ -78,6 +78,27 @@ nav {
 }
 
 nav a {
+    position: relative;
+    overflow: hidden;
+}
+
+nav a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 3px;
+    background: var(--primary-bg);
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+nav a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+nav a {
     color: var(--primary-bg);
     text-decoration: none;
     padding: 0.5rem 1.1rem;
@@ -92,7 +113,7 @@ nav a:hover {
 }
 
 nav a.active {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.349);
     font-weight: bold;
 }
 
@@ -100,6 +121,18 @@ nav a.active {
 body.framedosti nav a {
     color: var(--secondary-bg);
 }
+
+nav a.active {
+    background-color: rgba(255, 255, 255, 0.075); /* Light transparent background */
+    color: var(--primary-bg);
+    font-weight: bold;
+    border-radius: 25px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); /* Initial glow */
+    transform: scale(1.05);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    animation: glowEffect 1.5s infinite alternate ease-in-out;
+}
+
 
 /* Mobile Header Adjustments */
 @media (max-width: 768px) {
@@ -349,7 +382,7 @@ footer p {
 }
 
 .contact-wrapper {
-    grid-template-columns: 1fr;
+     grid-template-columns: 1fr;
     max-width: 800px; /* Constrain form width */
     margin: 0 auto; /* Center align */
     display: grid;
