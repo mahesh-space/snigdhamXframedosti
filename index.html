@@ -450,25 +450,30 @@
         const canvas = document.querySelector(".drawing-canvas");
         const alert = document.querySelector(".update-alert");
         const graffitiWall = document.querySelector(".graffiti-wall");
+        const placeholderText = "Write your appreciation message here...";
     
-        // Add default placeholder behavior
+        // Function to set placeholder text
         function setPlaceholder() {
             if (canvas.textContent.trim() === "") {
-                canvas.textContent = "Write your appreciation message here...";
+                canvas.textContent = placeholderText;
                 canvas.style.color = "#ffffff80"; // Light color for placeholder effect
             }
         }
     
-        // Remove placeholder when focusing
-        canvas.addEventListener("focus", function () {
-            if (this.textContent === "Write your appreciation message here...") {
-                this.textContent = "";
-                this.style.color = "#ffffff"; // Change color when typing
+        // Remove placeholder when focusing or typing
+        function clearPlaceholder() {
+            if (canvas.textContent.trim() === placeholderText) {
+                canvas.textContent = "";
+                canvas.style.color = "#ffffff"; // Normal text color
             }
-        });
+        }
     
-        // Restore placeholder if empty
+        // Handle focus and blur events
+        canvas.addEventListener("focus", clearPlaceholder);
         canvas.addEventListener("blur", setPlaceholder);
+    
+        // Handle input event for mobile (clears placeholder when user starts typing)
+        canvas.addEventListener("input", clearPlaceholder);
     
         // Ensure placeholder is set on page load
         setPlaceholder();
@@ -476,7 +481,7 @@
         // Post graffiti message
         postBtn.addEventListener("click", () => {
             const text = canvas.textContent.trim();
-            if (text && text !== "Write your appreciation message here...") {
+            if (text && text !== placeholderText) {
                 // Create a new message
                 const newMessage = document.createElement("div");
                 newMessage.className = "graffiti-message";
