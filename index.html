@@ -465,71 +465,86 @@
             }
         }
     
-        // Event listeners for placeholder behavior
+        // Mobile-friendly event listeners
         canvas.addEventListener("input", updatePlaceholder);
-        canvas.addEventListener("focus", () => {
-            canvas.removeAttribute("data-placeholder-visible");
-        });
+        canvas.addEventListener("touchstart", () => canvas.removeAttribute("data-placeholder-visible"));
+        canvas.addEventListener("click", () => canvas.removeAttribute("data-placeholder-visible"));
         canvas.addEventListener("blur", updatePlaceholder);
     
-        // Post graffiti message
-        postBtn.addEventListener("click", () => {
+        // Mobile-optimized post handler
+        postBtn.addEventListener("touchend", handlePost);
+        postBtn.addEventListener("click", handlePost);
+    
+        function handlePost(e) {
+            e.preventDefault();
             const text = canvas.textContent.trim();
             if (text && text !== placeholderText) {
-                // Create new message element
-                const newMessage = document.createElement("div");
-                newMessage.className = "graffiti-message";
-                newMessage.style.setProperty(
-                    "--color",
-                    `hsl(${Math.random() * 360}, 70%, 60%)`
-                );
-                newMessage.innerHTML = `
-                    <div class="message-content">
-                        <span class="spray-effect">${text}</span>
-                        <div class="message-footer">
-                            <span class="author">- Anonymous</span>
-                            <div class="reactions">
-                                <button class="react-btn">❤️ 0</button>
-                            </div>
-                        </div>
-                        <div class="sticker">${getRandomSticker()}</div>
-                    </div>
-                `;
-    
-                // Add message to the top of the wall
-                graffitiWall.prepend(newMessage);
-    
-                // Show alert notification
+                createMessage(text);
                 showTemporaryAlert();
-    
-                // Clear canvas and reset placeholder
-                canvas.textContent = "";
-                updatePlaceholder();
+                resetCanvas();
             }
-        });
+        }
     
-        // Handle reaction clicks
-        graffitiWall.addEventListener("click", (e) => {
+        function createMessage(text) {
+            const newMessage = document.createElement("div");
+            newMessage.className = "graffiti-message";
+            newMessage.style.setProperty(
+                "--color",
+                `hsl(${Math.random() * 360}, 70%, 60%)`
+            );
+            newMessage.innerHTML = `
+                <div class="message-content">
+                    <span class="spray-effect">${text}</span>
+                    <div class="message-footer">
+                        <span class="author">- Anonymous</span>
+                        <div class="reactions">
+                            <button class="react-btn">❤️ 0</button>
+                        </div>
+                    </div>
+                    <div class="sticker">${getRandomSticker()}</div>
+                </div>
+            `;
+            graffitiWall.prepend(newMessage);
+        }
+    
+        // Mobile-friendly reaction handling
+        graffitiWall.addEventListener("touchstart", handleReaction);
+        graffitiWall.addEventListener("click", handleReaction);
+    
+        function handleReaction(e) {
             if (e.target.classList.contains("react-btn")) {
-                const countSpan = e.target.querySelector("span") || e.target;
-                const currentCount = parseInt(countSpan.textContent) || 0;
-                countSpan.textContent = `${currentCount + 1}`;
+                e.preventDefault();
+                const btn = e.target;
+                let count = parseInt(btn.textContent.match(/\d+/)) || 0;
+                btn.textContent = `❤️ ${++count}`;
             }
-        });
+        }
     
-        // Helper function to get a random sticker
         function getRandomSticker() {
             const stickers = ["🌟", "🎉", "🔥", "💯", "✨", "🎨", "👏"];
             return stickers[Math.floor(Math.random() * stickers.length)];
         }
     
-        // Helper function to show a temporary alert
         function showTemporaryAlert() {
             alert.style.display = "block";
             setTimeout(() => {
                 alert.style.display = "none";
-            }, 2500); // Hide after 2.5 seconds
+            }, 2500);
         }
+    
+        function resetCanvas() {
+            canvas.textContent = "";
+            canvas.blur();
+            updatePlaceholder();
+            // Close mobile keyboard
+            document.activeElement?.blur();
+        }
+    
+        // Mobile viewport hack
+        document.documentElement.style.setProperty(
+            "--viewport-height",
+            `${window.innerHeight}px`
+        );
     });
 </script>
     </div>
