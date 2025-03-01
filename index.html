@@ -117,29 +117,31 @@
             </div>
         </section>
 
-        <!-- Interactive Shout-Out Wall -->
-<section class="section">
-    <h2 class="section-title">🎉 Digital Appreciation Wall</h2>
-    
-    <div class="graffiti-container">
-        <!-- New Message Canvas -->
-        <div class="graffiti-editor">
-            <div class="canvas-header">
-                <div class="toolbar">
-                    <button class="tool-btn" data-tool="spray">🎨 Spray</button>
-                    <button class="tool-btn" data-tool="sticker">🌟 Add Sticker</button>
-                    <input type="color" class="color-picker">
+        <section class="section">
+        <h2 class="section-title">🎉 Digital Appreciation Wall</h2>
+        
+        <div class="graffiti-container">
+            <!-- New Message Canvas -->
+            <div class="graffiti-editor">
+                <div class="canvas-header">
+                    <div class="toolbar">
+                        <button class="tool-btn" data-tool="spray">🎨 Spray</button>
+                        <button class="tool-btn" data-tool="sticker">🌟 Add Sticker</button>
+                        <input type="color" class="color-picker">
+                    </div>
                 </div>
+                <div class="drawing-canvas" 
+                     contenteditable="true"
+                     inputmode="text"
+                     enterkeyhint="send"
+                     data-placeholder="Write your appreciation message here..."></div>
+                <button class="submit-btn graffiti-btn">
+                    🚀 Post to Wall
+                    <span class="sparkle">✨</span>
+                </button>
             </div>
-            <div class="drawing-canvas" contenteditable="true" 
-                 placeholder="Write your appreciation message here..."></div>
-            <button class="submit-btn graffiti-btn">
-                🚀 Post to Wall
-                <span class="sparkle">✨</span>
-            </button>
-        </div>
 
-        <!-- Live Shout-Out Feed -->
+           <!-- Live Shout-Out Feed -->
         <div class="graffiti-wall">
             <div class="graffiti-message" style="--color: #ff6b6b">
                 <div class="message-content">
@@ -171,18 +173,39 @@
         </div>
     </div>
 
-    <!-- Real-Time Update Notification -->
-    <div class="update-alert">
-        🆕 New appreciation posted! Keep them coming!
-    </div>
-</section>
+        <!-- Real-Time Update Notification -->
+        <div class="update-alert">
+            🆕 New appreciation posted! Keep them coming!
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+
 
 <style>
+/* General Styles */
+:root {
+    --primary-bg: #2c3e50;
+    --secondary-bg: #34495e;
+    --accent-1: #4ecdc4;
+    --accent-2: #45b7af;
+    --viewport-height: 100vh;
+}
+
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: var(--primary-bg);
+    color: white;
+    min-height: var(--viewport-height);
+}
+
 /* Graffiti Wall Styles */
 .graffiti-container {
-    background: #2c3e50;
+    background: var(--secondary-bg);
     border-radius: 15px;
     padding: 2rem;
+    margin: 1rem;
     position: relative;
     overflow: hidden;
 }
@@ -205,17 +228,14 @@
     font-family: 'Comic Neue', cursive;
     font-size: 1.2rem;
     transition: all 0.3s ease;
+    position: relative;
 }
 
-.drawing-canvas:focus {
-    border-color: #4ecdc4;
-    background: rgba(0, 0, 0, 0.2);
-}
-
-.drawing-canvas:empty:before {
-    content: attr(placeholder);
+.drawing-canvas[data-placeholder-visible]::before {
+    content: attr(data-placeholder);
     color: #ffffff80;
-    display: block;
+    position: absolute;
+    pointer-events: none;
 }
 
 .toolbar {
@@ -232,10 +252,12 @@
     border-radius: 25px;
     cursor: pointer;
     transition: all 0.3s ease;
+    min-width: 44px;
+    min-height: 44px;
 }
 
 .tool-btn:hover {
-    background: #4ecdc4;
+    background: var(--accent-1);
     transform: translateY(-2px);
 }
 
@@ -249,7 +271,7 @@
 }
 
 .graffiti-message {
-    background: linear-gradient(145deg, var(--color), #2c3e50);
+    background: linear-gradient(145deg, var(--color), var(--secondary-bg));
     padding: 1.5rem;
     border-radius: 10px;
     position: relative;
@@ -286,6 +308,8 @@
     padding: 0.25rem 0.5rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    min-width: 44px;
+    min-height: 44px;
 }
 
 .react-btn:hover {
@@ -304,7 +328,7 @@
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: #4ecdc4;
+    background: var(--accent-1);
     color: white;
     padding: 1rem 2rem;
     border-radius: 25px;
@@ -318,7 +342,7 @@
 }
 
 .graffiti-btn {
-    background: linear-gradient(45deg, #4ecdc4, #45b7af);
+    background: linear-gradient(45deg, var(--accent-1), var(--accent-2));
     border: none;
     padding: 1rem 2rem;
     color: white;
@@ -328,6 +352,8 @@
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease;
+    min-width: 44px;
+    min-height: 44px;
 }
 
 .graffiti-btn:hover .sparkle {
@@ -358,12 +384,6 @@
         gap: 0.75rem;
     }
 
-    .tool-btn {
-        width: 100%;
-        padding: 0.75rem;
-        font-size: 1rem;
-    }
-
     .drawing-canvas {
         min-height: 80px;
         font-size: 1rem;
@@ -387,28 +407,6 @@
         50% { transform: translateY(-3px); }
     }
 
-    .spray-effect {
-        font-size: 1.2rem;
-    }
-
-    .message-footer {
-        flex-direction: column;
-        gap: 0.5rem;
-        text-align: center;
-    }
-
-    .sticker {
-        font-size: 1.2rem;
-        top: -10px;
-        right: -10px;
-    }
-
-    .graffiti-btn {
-        width: 100%;
-        padding: 1rem;
-        font-size: 0.9rem;
-    }
-
     .update-alert {
         width: calc(100% - 2rem);
         left: 1rem;
@@ -419,134 +417,10 @@
         font-size: 0.9rem;
     }
 }
-
-@media (max-width: 480px) {
-    .drawing-canvas::before {
-        content: attr(placeholder);
-        color: #ffffff80;
-        pointer-events: none;
-        position: absolute;
-    }
-
-    .graffiti-message {
-        padding: 0.75rem;
-    }
-
-    .spray-effect {
-        font-size: 1.1rem;
-    }
-
-    .react-btn {
-        padding: 0.2rem 0.4rem;
-        font-size: 0.9rem;
-    }
-}
 </style>
 
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const postBtn = document.querySelector(".graffiti-btn");
-        const canvas = document.querySelector(".drawing-canvas");
-        const alert = document.querySelector(".update-alert");
-        const graffitiWall = document.querySelector(".graffiti-wall");
-        const placeholderText = "Write your appreciation message here...";
-    
-        // Initialize placeholder
-        canvas.setAttribute("data-placeholder", placeholderText);
-        updatePlaceholder();
-    
-        // Handle placeholder visibility
-        function updatePlaceholder() {
-            if (canvas.textContent.trim() === "") {
-                canvas.setAttribute("data-placeholder-visible", "true");
-            } else {
-                canvas.removeAttribute("data-placeholder-visible");
-            }
-        }
-    
-        // Mobile-friendly event listeners
-        canvas.addEventListener("input", updatePlaceholder);
-        canvas.addEventListener("touchstart", () => canvas.removeAttribute("data-placeholder-visible"));
-        canvas.addEventListener("click", () => canvas.removeAttribute("data-placeholder-visible"));
-        canvas.addEventListener("blur", updatePlaceholder);
-    
-        // Mobile-optimized post handler
-        postBtn.addEventListener("touchend", handlePost);
-        postBtn.addEventListener("click", handlePost);
-    
-        function handlePost(e) {
-            e.preventDefault();
-            const text = canvas.textContent.trim();
-            if (text && text !== placeholderText) {
-                createMessage(text);
-                showTemporaryAlert();
-                resetCanvas();
-            }
-        }
-    
-        function createMessage(text) {
-            const newMessage = document.createElement("div");
-            newMessage.className = "graffiti-message";
-            newMessage.style.setProperty(
-                "--color",
-                `hsl(${Math.random() * 360}, 70%, 60%)`
-            );
-            newMessage.innerHTML = `
-                <div class="message-content">
-                    <span class="spray-effect">${text}</span>
-                    <div class="message-footer">
-                        <span class="author">- Anonymous</span>
-                        <div class="reactions">
-                            <button class="react-btn">❤️ 0</button>
-                        </div>
-                    </div>
-                    <div class="sticker">${getRandomSticker()}</div>
-                </div>
-            `;
-            graffitiWall.prepend(newMessage);
-        }
-    
-        // Mobile-friendly reaction handling
-        graffitiWall.addEventListener("touchstart", handleReaction);
-        graffitiWall.addEventListener("click", handleReaction);
-    
-        function handleReaction(e) {
-            if (e.target.classList.contains("react-btn")) {
-                e.preventDefault();
-                const btn = e.target;
-                let count = parseInt(btn.textContent.match(/\d+/)) || 0;
-                btn.textContent = `❤️ ${++count}`;
-            }
-        }
-    
-        function getRandomSticker() {
-            const stickers = ["🌟", "🎉", "🔥", "💯", "✨", "🎨", "👏"];
-            return stickers[Math.floor(Math.random() * stickers.length)];
-        }
-    
-        function showTemporaryAlert() {
-            alert.style.display = "block";
-            setTimeout(() => {
-                alert.style.display = "none";
-            }, 2500);
-        }
-    
-        function resetCanvas() {
-            canvas.textContent = "";
-            canvas.blur();
-            updatePlaceholder();
-            // Close mobile keyboard
-            document.activeElement?.blur();
-        }
-    
-        // Mobile viewport hack
-        document.documentElement.style.setProperty(
-            "--viewport-height",
-            `${window.innerHeight}px`
-        );
-    });
-</script>
+
     </div>
     
         <div class="animated-bg"></div> <!-- For Option 1 -->
