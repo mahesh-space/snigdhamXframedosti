@@ -452,37 +452,31 @@
         const graffitiWall = document.querySelector(".graffiti-wall");
         const placeholderText = "Write your appreciation message here...";
     
-        // Function to set placeholder text
-        function setPlaceholder() {
+        // Initialize placeholder
+        canvas.setAttribute("data-placeholder", placeholderText);
+        updatePlaceholder();
+    
+        // Handle placeholder visibility
+        function updatePlaceholder() {
             if (canvas.textContent.trim() === "") {
-                canvas.textContent = placeholderText;
-                canvas.style.color = "#ffffff80"; // Light color for placeholder effect
+                canvas.setAttribute("data-placeholder-visible", "true");
+            } else {
+                canvas.removeAttribute("data-placeholder-visible");
             }
         }
     
-        // Remove placeholder when focusing or typing
-        function clearPlaceholder() {
-            if (canvas.textContent.trim() === placeholderText) {
-                canvas.textContent = "";
-                canvas.style.color = "#ffffff"; // Normal text color
-            }
-        }
-    
-        // Handle focus and blur events
-        canvas.addEventListener("focus", clearPlaceholder);
-        canvas.addEventListener("blur", setPlaceholder);
-    
-        // Handle input event for mobile (clears placeholder when user starts typing)
-        canvas.addEventListener("input", clearPlaceholder);
-    
-        // Ensure placeholder is set on page load
-        setPlaceholder();
+        // Event listeners for placeholder behavior
+        canvas.addEventListener("input", updatePlaceholder);
+        canvas.addEventListener("focus", () => {
+            canvas.removeAttribute("data-placeholder-visible");
+        });
+        canvas.addEventListener("blur", updatePlaceholder);
     
         // Post graffiti message
         postBtn.addEventListener("click", () => {
             const text = canvas.textContent.trim();
             if (text && text !== placeholderText) {
-                // Create a new message
+                // Create new message element
                 const newMessage = document.createElement("div");
                 newMessage.className = "graffiti-message";
                 newMessage.style.setProperty(
@@ -495,43 +489,46 @@
                         <div class="message-footer">
                             <span class="author">- Anonymous</span>
                             <div class="reactions">
-                                <button class="react-btn" data-count="0">❤️ 0</button>
+                                <button class="react-btn">❤️ 0</button>
                             </div>
                         </div>
                         <div class="sticker">${getRandomSticker()}</div>
                     </div>
                 `;
     
-                // Add message to the top
+                // Add message to the top of the wall
                 graffitiWall.prepend(newMessage);
     
-                // Show alert
+                // Show alert notification
                 showTemporaryAlert();
     
                 // Clear canvas and reset placeholder
                 canvas.textContent = "";
-                setPlaceholder();
+                updatePlaceholder();
             }
         });
     
-        // Handle reaction clicks efficiently
+        // Handle reaction clicks
         graffitiWall.addEventListener("click", (e) => {
             if (e.target.classList.contains("react-btn")) {
-                let count = parseInt(e.target.getAttribute("data-count")) || 0;
-                count++;
-                e.target.setAttribute("data-count", count);
-                e.target.textContent = `❤️ ${count}`;
+                const countSpan = e.target.querySelector("span") || e.target;
+                const currentCount = parseInt(countSpan.textContent) || 0;
+                countSpan.textContent = `${currentCount + 1}`;
             }
         });
     
+        // Helper function to get a random sticker
         function getRandomSticker() {
             const stickers = ["🌟", "🎉", "🔥", "💯", "✨", "🎨", "👏"];
             return stickers[Math.floor(Math.random() * stickers.length)];
         }
     
+        // Helper function to show a temporary alert
         function showTemporaryAlert() {
             alert.style.display = "block";
-            setTimeout(() => (alert.style.display = "none"), 2500);
+            setTimeout(() => {
+                alert.style.display = "none";
+            }, 2500); // Hide after 2.5 seconds
         }
     });
 </script>
