@@ -185,24 +185,24 @@
 <style>
 /* General Styles */
 :root {
-    --primary-bg: #2c3e50;
-    --secondary-bg: #34495e;
-    --accent-1: #4ecdc4;
-    --accent-2: #45b7af;
+    --primary-bg1: #2c3e50;
+    --secondary-bg1: #34495e;
+    --accent-11: #4ecdc4;
+    --accent-22: #45b7af;
     --viewport-height: 100vh;
 }
 
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background: var(--primary-bg);
+    background: var(--primary-bg1);
     color: white;
     min-height: var(--viewport-height);
 }
 
 /* Graffiti Wall Styles */
 .graffiti-container {
-    background: var(--secondary-bg);
+    background: var(--secondary-bg1);
     border-radius: 15px;
     padding: 2rem;
     margin: 1rem;
@@ -257,7 +257,7 @@ body {
 }
 
 .tool-btn:hover {
-    background: var(--accent-1);
+    background: var(--accent-11);
     transform: translateY(-2px);
 }
 
@@ -271,7 +271,7 @@ body {
 }
 
 .graffiti-message {
-    background: linear-gradient(145deg, var(--color), var(--secondary-bg));
+    background: linear-gradient(145deg, var(--color), var(--secondary-bg1));
     padding: 1.5rem;
     border-radius: 10px;
     position: relative;
@@ -328,7 +328,7 @@ body {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: var(--accent-1);
+    background: var(--accent-11);
     color: white;
     padding: 1rem 2rem;
     border-radius: 25px;
@@ -342,7 +342,7 @@ body {
 }
 
 .graffiti-btn {
-    background: linear-gradient(45deg, var(--accent-1), var(--accent-2));
+    background: linear-gradient(45deg, var(--accent-11), var(--accent-22));
     border: none;
     padding: 1rem 2rem;
     color: white;
