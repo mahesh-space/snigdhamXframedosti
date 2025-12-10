@@ -2,6 +2,8 @@
 
 **Snigdham X FrameDosti** is a combined website for the **Snigdham Cultural Club** and **FrameDosti Photography Club** of NIELIT Ajmer. This platform showcases the activities, achievements, and gallery of both clubs, providing a unified space for cultural and photography enthusiasts.
 
+## Live: https://mahesh-space.github.io/snigdhamXframedosti/
+
 ---
 
 ## Table of Contents
