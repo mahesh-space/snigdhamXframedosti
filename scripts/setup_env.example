@@ -1,0 +1,15 @@
+# setup_env.example
+# Copy to .env or export variables before running scripts
+# SUPABASE_PROJECT_REF - project ref from Supabase dashboard (8-char id)
+# SUPABASE_URL - https://<project>.supabase.co
+# SUPABASE_SERVICE_ROLE_KEY - Service Role key (keep secret)
+# SUPABASE_DATABASE_URL - optional PostgreSQL connection for psql-based migration
+
+SUPABASE_PROJECT_REF=your-project-ref
+SUPABASE_URL=https://xyz.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+# Optional if you prefer psql-based migrations
+# SUPABASE_DATABASE_URL=postgresql://postgres:password@db.host:5432/postgres
+
+# Edge Function URL (after deploying functions)
+# VALIDATE_UPLOAD_URL=https://<project>.supabase.co/functions/v1/validate_upload
