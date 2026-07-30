@@ -31,13 +31,37 @@ export async function handler(request) {
     return new Response(JSON.stringify({ error: 'missing params' }), { status: 400 })
   }
 
-  // TODO: validate file metadata (mime/size) here using storage API
+  // Validate metadata using storage API
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/webp']
+  const MAX_SIZE_BYTES = 8 * 1024 * 1024 // 8MB
 
-  // Move object from temp to final path
-  const finalPath = `gallery/${uploader_id}/${Date.now()}_${temp_path.split('/').pop()}`
-  const { error: moveErr } = await supabase.storage.from('temp').move(temp_path, finalPath)
-  if (moveErr) {
-    return new Response(JSON.stringify({ error: 'move_failed', details: moveErr }), { status: 500 })
+  const { data: meta, error: metaErr } = await supabase.storage.from('temp').getMetadata(temp_path)
+  if (metaErr || !meta) {
+    return new Response(JSON.stringify({ error: 'metadata_not_found', details: metaErr }), { status: 400 })
+  }
+
+  if (!allowedTypes.includes(meta.content_type)) {
+    return new Response(JSON.stringify({ error: 'invalid_mime', mime: meta.content_type }), { status: 400 })
+  }
+
+  if (meta.size > MAX_SIZE_BYTES) {
+    return new Response(JSON.stringify({ error: 'file_too_large', size: meta.size }), { status: 400 })
+  }
+
+  // Determine final path in target bucket
+  const filename = temp_path.split('/').pop()
+  const finalPath = `${intended_bucket}/${uploader_id}/${Date.now()}_${filename}`
+
+  // Download from temp bucket
+  const { data: downloaded, error: dlErr } = await supabase.storage.from('temp').download(temp_path)
+  if (dlErr || !downloaded) {
+    return new Response(JSON.stringify({ error: 'download_failed', details: dlErr }), { status: 500 })
+  }
+
+  // Upload to intended bucket
+  const { error: uploadErr } = await supabase.storage.from(intended_bucket).upload(finalPath, downloaded, { upsert: false })
+  if (uploadErr) {
+    return new Response(JSON.stringify({ error: 'upload_failed', details: uploadErr }), { status: 500 })
   }
 
   // Insert DB record
@@ -45,12 +69,26 @@ export async function handler(request) {
     user_id: uploader_id,
     storage_path: finalPath,
     caption,
+    mime_type: meta.content_type,
+    width: meta.metadata?.width || null,
+    height: meta.metadata?.height || null,
     approved: false
   }).select().single()
 
   if (error) {
+    // Attempt cleanup of uploaded file
+    try { await supabase.storage.from(intended_bucket).remove([finalPath]) } catch (e) {}
     return new Response(JSON.stringify({ error: 'db_insert_failed', details: error }), { status: 500 })
   }
 
-  return new Response(JSON.stringify({ media: data }), { status: 200 })
+  // Remove temp file
+  try { await supabase.storage.from('temp').remove([temp_path]) } catch (e) {}
+
+  // Create signed URL for the newly uploaded file (short-lived)
+  const { data: urlData, error: urlErr } = await supabase.storage.from(intended_bucket).createSignedUrl(finalPath, 60 * 60)
+  if (urlErr) {
+    return new Response(JSON.stringify({ error: 'signed_url_failed', details: urlErr }), { status: 500 })
+  }
+
+  return new Response(JSON.stringify({ media: data, url: urlData.signedUrl }), { status: 200 })
 }
