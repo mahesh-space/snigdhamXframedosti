@@ -29,6 +29,23 @@ export function onAuthChange(callback) {
   })
 }
 
+// Profile & role helpers
+export async function getProfile() {
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return null
+  const { data, error } = await supabase.from('profiles').select('*').eq('user_id', user.id).single()
+  if (error) return null
+  return data
+}
+
+export async function getUserRoles() {
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return []
+  const { data, error } = await supabase.from('user_roles').select('role_id, role:roles(slug)').eq('user_id', user.id)
+  if (error) return []
+  return data.map(r => r.role.slug)
+}
+
 // Data helpers (examples)
 export async function fetchPublicMedia({ limit = 20, offset = 0 } = {}) {
   const { data, error } = await supabase
@@ -42,7 +59,7 @@ export async function fetchPublicMedia({ limit = 20, offset = 0 } = {}) {
 }
 
 export async function postAppreciation({ text, stickers = [], color = null }) {
-  const user = supabase.auth.getUser ? (await supabase.auth.getUser()).data.user : null
+  const { data: { user } } = await supabase.auth.getUser()
   const payload = {
     user_id: user?.id || null,
     text,
